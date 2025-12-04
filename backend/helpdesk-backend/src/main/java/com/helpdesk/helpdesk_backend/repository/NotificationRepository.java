@@ -1,0 +1,28 @@
+package com.helpdesk.helpdesk_backend.repository;
+
+
+import com.helpdesk.helpdesk_backend.entity.Notification;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import java.util.List;
+
+
+import com.helpdesk.helpdesk_backend.entity.Notification;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import java.util.List;
+
+@Repository
+public interface NotificationRepository extends JpaRepository<Notification, Long> {
+    List<Notification> findByUserIdOrderByCreatedAtDesc(Long userId);
+    
+    // Corrected method name - was findByUserIdAndIsReadFalse, should be findByUserIdAndIsReadFalseOrderByCreatedAtDesc
+    List<Notification> findByUserIdAndIsReadFalseOrderByCreatedAtDesc(Long userId);
+    
+    Long countByUserIdAndIsReadFalse(Long userId);
+    
+    void deleteByUserId(Long userId);
+    
+    // Add this method to find by user and ticket
+    List<Notification> findByUserIdAndTicketId(Long userId, Long ticketId);
+}
